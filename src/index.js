@@ -1,3 +1,3 @@
-import init from './init';
+import run from './application';
 
-init();
+run();

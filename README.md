@@ -1,23 +1,24 @@
-# javascript-package
+### src/application.js
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте и экспортируйте по умолчанию функцию, которая запускает код, заполняющий элемент `<progress>` на один процент за 1 секунду. Через 100 секунд процесс должен остановится, так как достигнет максимума.
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+Начальное состояние
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
+```
+<progress value="0" max="100"></progress>
 
-## Setup
-
-```sh
-make install
 ```
 
-### Run
+Через одну секунду
 
-```sh
-make develop
 ```
+<progress value="1" max="100"></progress>
+
+```
+
+Для изменения значения `value` используйте метод [setAttribute](https://developer.mozilla.org/en-US/docs/Web/API/Element/setAttribute)
+
+### Подсказки
+
+-   Реализуйте задачу используя `setTimeout` (с `setInterval` может не заработать проверка)
+-   Элемент [Progress](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/progress)

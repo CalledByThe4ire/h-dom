@@ -3,42 +3,40 @@ import { watch } from 'melanke-watchjs';
 
 // BEGIN (write your solution here)
 export default () => {
-  const [activeElement] = [...document.querySelectorAll('.tab-pane')].filter(
-    item => item.classList.contains('active'),
-  );
-
-  const model = {
-    active: activeElement.id,
+  const state = {
+    menu: {
+      currentHeaderId: 'list-home-list',
+      previousHeaderId: null,
+      currentTabPaneId: 'list-home',
+      previousTabPaneId: null,
+    },
   };
 
-  const setActiveClass = (cls, ending = '-list') => {
-    Array.from(document.querySelectorAll(cls)).forEach((item) => {
-      const isActive = val => val.classList.contains('active');
-      const id = item.id.endsWith(ending)
-        ? `${model.active}${ending}`
-        : model.active;
-      item.classList.toggle('active', item.id === id && !isActive(item));
-      item.classList.toggle(
-        'show',
-        item.classList.contains('tab-pane') && isActive(item),
-      );
+  watch(state, 'menu', () => {
+    if (state.menu.currentHeaderId === state.menu.previousHeaderId) {
+      return;
+    }
+    const currentBodyEl = document.getElementById(state.menu.currentTabPaneId);
+    currentBodyEl.classList.add('active', 'show');
+    const prevousBodyEl = document.getElementById(state.menu.previousTabPaneId);
+    prevousBodyEl.classList.remove('active', 'show');
+
+    const currentHeaderEl = document.getElementById(state.menu.currentHeaderId);
+    currentHeaderEl.classList.add('active');
+    const prevousHeaderEl = document.getElementById(state.menu.previousHeaderId);
+    prevousHeaderEl.classList.remove('active');
+  });
+
+  const elements = document.querySelectorAll('[data-toggle="list"]');
+  elements.forEach((element) => {
+    element.addEventListener('click', (e) => {
+      state.menu = {
+        previousTabPaneId: state.menu.currentTabPaneId,
+        currentTabPaneId: e.target.hash.slice(1),
+        previousHeaderId: state.menu.currentHeaderId,
+        currentHeaderId: e.target.id,
+      };
     });
-  };
-
-  const updateView = () => {
-    setActiveClass('.list-group-item');
-    setActiveClass('.tab-pane');
-  };
-
-  const updateModel = ({ target }) => {
-    const { id } = target;
-    model.active = id.slice(0, id.indexOf('-list'));
-  };
-
-  watch(model, 'active', updateView);
-
-  Array.from(document.querySelectorAll('.list-group-item')).forEach((item) => {
-    item.addEventListener('click', updateModel);
   });
 };
 // END

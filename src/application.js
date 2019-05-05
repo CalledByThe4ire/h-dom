@@ -21,142 +21,56 @@ const notebooks = [
   },
 ];
 
-export default () => {
-  const extractModels = (list) => {
-    return list.reduce((acc, item) => [...acc, item.model], []);
-  };
+const predicates = {
+  eq: value => el => String(el) === String(value),
+  gt: value => el => el >= Number(value),
+  lt: value => el => el <= Number(value),
+};
 
-  const state = {
-    params: {
-      processor: null,
-      memory: null,
-      frequency: null,
-    },
-    products: extractModels(notebooks),
-  };
+const filterNotebooks = (query, items) => {
+  const fields = Object.keys(query);
+  const activeFields = fields.filter(field => query[field]);
+  const result = activeFields.reduce((acc, field) => {
+    const [name, predicateName] = field.split('_');
+    const match = predicates[predicateName];
+    return acc.filter(item => match(query[field])(item[name]));
+  }, items);
+  return result;
+};
 
-  const isInRange = (val) => {
-    const {
-      params: {
-        frequency: { min, max },
-      },
-    } = state;
-
-    return val >= min && val <= max;
-  };
-
-  const createProductsList = (state) => {
-    const chosenParams = Object.keys(state.params).filter(
-      parameter => state.params[parameter] !== null,
-    );
-    let coll = [];
-
-    chosenParams.forEach((param) => {
-      const val = state.params[param];
-
-      if (coll.length === 0) {
-        coll = [...notebooks];
-      }
-
-      if (typeof val === 'object') {
-        coll = coll.filter((notebook) => {
-          return isInRange(notebook[param]);
-        });
-      } else {
-        coll = coll.filter(notebook => notebook[param] === val);
-      }
-    });
-
-    return (state.products = extractModels(coll));
-  };
-
-  const renderProductsList = (state) => {
-    const { products } = state;
-
-    if (products.length !== 0) {
-      const ul = document.createElement('ul');
-      state.products.forEach((v) => {
-        const li = document.createElement('li');
-        li.textContent = v;
-        ul.append(li);
-      });
-      document.querySelector('.result').innerHTML = '';
-      document.querySelector('.result').append(ul);
-    } else {
-      document.querySelector('.result').innerHTML = '';
-    }
-  };
-
-  const eventHandler = (evt) => {
-    const {
-      target,
-      target: { name, value },
-    } = evt;
-    switch (name) {
-      case 'processor_eq':
-        state.params.processor = value.toLowerCase();
-
-        if (!state.params.processor) {
-          state.params.processor = null;
-        }
-        createProductsList(state);
-        renderProductsList(state);
-        break;
-
-      case 'memory_eq':
-        state.params.memory = Number(value);
-
-        if (!state.params.memory) {
-          state.params.memory = null;
-        }
-        createProductsList(state);
-        renderProductsList(state);
-        break;
-
-      case 'frequency_gt':
-        if (!state.frequency) {
-          state.params.frequency = {
-            min: Number(value),
-            max: Number(target.max)
-          };
-        }
-        if (Number(value) === 0) {
-          state.params.frequency.min = Number(target.min);
-        }
-        state.params.frequency.min = Number(value);
-        createProductsList(state);
-        renderProductsList(state);
-        break;
-
-      case 'frequency_lt':
-        if (!state.frequency) {
-          state.params.frequency = {
-            min: Number(target.min),
-            max: Number(value)
-          };
-        }
-        if (Number(value) === 0) {
-          state.params.frequency.max = Number(target.max);
-        }
-        createProductsList(state);
-        renderProductsList(state);
-        break;
-
-      default:
-        return;
-    }
-  };
-
-  const form = document.querySelector('form');
-
-  if (form) {
-    [...form.querySelectorAll('select')].forEach((select) =>
-      select.addEventListener('change', eventHandler)
-    );
-    [...form.querySelectorAll('input[type="number"]')].forEach((input) =>
-      input.addEventListener('input', eventHandler)
-    );
+const render = (state) => {
+  const resultElement = document.querySelector('.result');
+  const filteredNotebooks = filterNotebooks(state.filter, notebooks);
+  if (filteredNotebooks.length === 0) {
+    resultElement.innerHTML = '';
+    return;
   }
+  const html = `<ul>${filteredNotebooks.map(n => `<li>${n.model}</li>`).join('')}</ul>`;
+  resultElement.innerHTML = html;
+};
 
-  renderProductsList(state);
+export default () => {
+  const state = {
+    filter: {
+      processor_eq: null,
+      memory_eq: null,
+      frequency_gt: null,
+      frequency_lt: null,
+    },
+  };
+
+  const items = [
+    { name: 'processor_eq', eventType: 'change' },
+    { name: 'memory_eq', eventType: 'change' },
+    { name: 'frequency_gt', eventType: 'input' },
+    { name: 'frequency_lt', eventType: 'input' },
+  ];
+  items.forEach(({ name, eventType }) => {
+    const element = document.querySelector(`[name="${name}"]`);
+    element.addEventListener(eventType, ({ target }) => {
+      state.filter[target.name] = target.value === '' ? null : target.value;
+      render(state);
+    });
+  });
+  render(state);
 };

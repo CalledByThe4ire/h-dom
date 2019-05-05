@@ -3,34 +3,21 @@ import _ from 'lodash';
 import $ from 'jquery';
 
 export default () => {
-  const clickHandler = function() {
-    const $this = $(this);
-    const $itemsContainer = $this
-      .closest('[data-ride="carousel"]')
-      .find('.carousel-inner');
-    const $items = $('.carousel-item', $itemsContainer);
-    const $activeItem = $items.filter((index, item) =>
-      $(item).hasClass('active')
-    );
-
-    switch ($this.attr('data-slide')) {
-      case 'prev':
-        const $prevItem =
-          $activeItem.prev().length === 0 ? $items.last() : $activeItem.prev();
-        $activeItem.removeClass('active');
-        $prevItem.addClass('active');
-        break;
-      case 'next':
-        const $nextItem =
-          $activeItem.next().length === 0 ? $items.first() : $activeItem.next();
-        $activeItem.removeClass('active');
-        $nextItem.addClass('active');
-        break;
-    }
-  };
-
-  const $controls = $('[data-slide]');
-  $controls.each((index, control) => {
-    $(control).on('click', clickHandler);
+  const carousels = $('[data-ride="carousel"]');
+  carousels.each((index, carousel) => {
+    const root = $(carousel);
+    const slides = root.find('.carousel-item');
+    const maxIndex = slides.length - 1;
+    let currentIndex = _.findIndex(slides, slide => $(slide).hasClass('active'));
+    const handlerGenerator = next => () => {
+      const newCurrentIndex = next(currentIndex);
+      slides.removeClass('active');
+      slides.filter(id => id === newCurrentIndex).addClass('active');
+      currentIndex = newCurrentIndex;
+    };
+    const prev = root.find('[data-slide="prev"]');
+    prev.click(handlerGenerator(i => (i === 0 ? maxIndex : i - 1)));
+    const next = root.find('[data-slide="next"]');
+    next.click(handlerGenerator(i => (maxIndex === i ? 0 : i + 1)));
   });
 };

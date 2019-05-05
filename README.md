@@ -1,23 +1,14 @@
-# javascript-package
+В Bootstrap есть компонент [Carousel](https://v4-alpha.getbootstrap.com/components/carousel/#content).
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Этот слайдер устроен также как и все остальное в бутстрапе. В верстке определяются data аттрибуты, по которым бутстрап понимает что это карусель и оживляет ее.
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+На слайдере отображаются две стрелки, одна влево другая вправо. Клики по этим стрелкам приводят к перемотке слайдов по кругу. С точки зрения DOM происходит следующее:
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
+-   Класс `active` снимается с текущего элемента `.carousel-item`
+-   Активный элемент получает класс `active`
 
-## Setup
+### application.js
 
-```sh
-make install
-```
+Реализуйте логику слайдера в функции экспортированной по умолчанию.
 
-### Run
-
-```sh
-make develop
-```
+Постройте свою логику так, чтобы она позволила использовать на одной странице любое количество компонентов `carousel` с любым количеством картинок внутри.

@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "jquery": "^3.4.1",
     "js-beautify": "^1.10.0",
     "js-polyfills": "^0.1.42",
     "lodash": "^4.17.11"

@@ -1,23 +1,65 @@
-# javascript-package
+Игра в 15 или пятнашки --- популярная головоломка, придуманная в 1878 году Ноем Чепмэном. Представляет собой набор одинаковых квадратных костяшек с нанесёнными числами, заключённых в квадратную коробку. Длина стороны коробки в четыре раза больше длины стороны костяшек для набора из 15 элементов, соответственно в коробке остаётся незаполненным одно квадратное поле. Цель игры --- перемещая костяшки по коробке, добиться упорядочивания их по номерам, желательно сделав как можно меньше перемещений.
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+```
+| 1  | 2  | 9  | 12 |
+|----|----|----|----|
+| 4  | 3  | 8  | 10 |
+|----|----|----|----|
+| 15 | 14 | 5  | 7  |
+|----|----|----|----|
+| 11 | 13 | 6  |    |
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
-
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
-
-## Setup
-
-```sh
-make install
 ```
 
-### Run
+### src/application.js
 
-```sh
-make develop
+Реализуйте эту игру внутри функции экспортируемой по-умолчанию, учитывая следующие моменты:
+
+-   Перемещение происходит по клику. Если номер, на котором был клик, находится рядом с пустой областью, то он перемещается на эту область. Если пустой области рядом нет, то ничего не происходит.
+-   При перемещении числа, из текущей ячейки удаляется класс `table-active` и добавляется на ту, откуда происходит перемещение (та что становится пустой).
+-   В файле уже заданы `values`, в том порядке в котором они должны появляться в выводе. Для упрощения тестирования, этот порядок всегда один и тот же.
+-   В файле `index.html` находится `div` с классом `gem-puzzle`, именно к нему нужно привязывать игру.
+
+`html` первой позиции должен получиться таким:
+
 ```
+<div class="gem-puzzle">
+  <table class="table-bordered">
+    <tbody>
+      <tr>
+        <td class="p-3">8</td>
+        <td class="p-3">11</td>
+        <td class="p-3">7</td>
+        <td class="p-3">12</td>
+      </tr>
+      <tr>
+        <td class="p-3">3</td>
+        <td class="p-3">15</td>
+        <td class="p-3">6</td>
+        <td class="p-3">10</td>
+      </tr>
+      <tr>
+        <td class="p-3">2</td>
+        <td class="p-3">5</td>
+        <td class="p-3">13</td>
+        <td class="p-3">14</td>
+      </tr>
+      <tr>
+        <td class="p-3">9</td>
+        <td class="p-3">1</td>
+        <td class="p-3">4</td>
+        <td class="p-3 table-active"></td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+```
+
+Теги и классы должны совпадать.
+
+### Подсказки
+
+-   Используйте дополнительную навигацию доступную в таблицах: `rows`, `cells`.
+-   Достаточно повесить событие на всю таблицу и использовать возможности всплытия
+-   У `cell` есть свойство `cellIndex` у `row` есть свойство `rowIndex`

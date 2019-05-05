@@ -1,42 +1,22 @@
 import '@babel/polyfill';
 
 export default () => {
-  const makeElementActive = (collection, clsName, href, elementType) => {
-    Array.from(collection.querySelectorAll(clsName)).forEach((element) => {
-      let attr = '';
-      let newHref = '';
-      if (elementType === 'link') {
-        attr = 'href';
-        newHref = href;
-      } else if (elementType === 'tab') {
-        attr = 'id';
-        newHref = href.slice(1);
-      }
-      const elementAttr = element.getAttribute(attr);
-      const predicate = elementAttr === newHref;
-      element.classList.toggle(
-        'active',
-        !element.classList.contains('active') && predicate,
-      );
-    });
+  const handle = ({ target }) => {
+    const nav = target.closest('.nav');
+    const current = nav.querySelector('a.active');
+    current.classList.remove('active');
+    const currentTabContentId = current.hash.slice(1);
+    const currentTabContent = document.getElementById(currentTabContentId);
+    currentTabContent.classList.remove('active');
+
+    target.classList.add('active');
+    const nextTabContentId = target.hash.slice(1);
+    const nextTabContent = document.getElementById(nextTabContentId);
+    nextTabContent.classList.add('active');
   };
 
-  const clickHandler = (evt) => {
-    evt.preventDefault();
-    const { target } = evt;
-    const navTabs = target.closest('.nav-tabs');
-    const linkHref = target.getAttribute('href');
-    let tabContent = null;
-
-    if (navTabs) {
-      tabContent = navTabs.nextElementSibling;
-    }
-
-    makeElementActive(navTabs, '.nav-link', linkHref, 'link');
-    makeElementActive(tabContent, '.tab-pane', linkHref, 'tab');
-  };
-
-  document
-    .querySelectorAll('.nav-link')
-    .forEach(link => link.addEventListener('click', clickHandler));
+  const links = document.querySelectorAll('a[data-toggle]');
+  links.forEach((element) => {
+    element.addEventListener('click', handle);
+  });
 };

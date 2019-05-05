@@ -1,6 +1,6 @@
 import '@babel/polyfill';
 import { watch } from 'melanke-watchjs';
 
-export default () => {
-  //
-};
+// BEGIN (write your solution here)
+//
+// END

@@ -1,23 +1,23 @@
-# javascript-package
+### prettify
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте функцию `prettify`, которая находит текст (дочерние текстовые ноды) внутри элемента `div` и оборачивает текст в параграф. Экспортируйте функцию по умолчанию.
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+```
+// <body>
+//   <p>Boom</p>
+//   text
+//   <div>Bam</div>
+// </body>
+const elements = prettify(document);
+console.log(document.body.innerHTML);
+// <body>
+//   <p>Boom</p>
+//   text
+//   <div><p>Bam</p></div>
+// </body>
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
-
-## Setup
-
-```sh
-make install
 ```
 
-### Run
+### Подсказки
 
-```sh
-make develop
-```
+-   Очистка строки от пробельных символов: [trim](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/String/trim)

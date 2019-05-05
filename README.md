@@ -1,23 +1,7 @@
-# javascript-package
+### src/application.js
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте js часть компонента list-group бутстрапа. Посмотреть пример работы можно здесь <https://getbootstrap.com/docs/4.1/components/list-group/#javascript-behavior>
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+Задача в том чтобы добавить js код, который оживляет переключение.
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
-
-## Setup
-
-```sh
-make install
-```
-
-### Run
-
-```sh
-make develop
-```
+Реализуйте задание используя архитектуру MVC.

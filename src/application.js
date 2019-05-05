@@ -21,71 +21,33 @@ const generatePlayingField = () => {
   return tableEl;
 };
 
+const getDistance = (a, b) => Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+
 export default () => {
-  const makeStep = (c) => {
-    // cell
-    const cell = c;
-    const { cellIndex } = cell;
+  let currentPosition = { x: 3, y: 3 };
+  const tableEl = generatePlayingField();
 
-    // row
-    const row = cell.parentElement;
-    const { rowIndex } = row;
-
-    // table's body
-    const rows = row.closest('tbody').rows;
-    const { cells } = row;
-
-    // cell' siblings
-    let leftSiblingCell = null;
-    let rightSiblingCell = null;
-    let topSiblingCell = null;
-    let bottomSiblingCell = null;
-
-    if (cells[cellIndex - 1]) {
-      leftSiblingCell = rows[rowIndex].cells[cellIndex - 1];
+  tableEl.addEventListener('click', (e) => {
+    const cell = e.target;
+    const {
+      cellIndex,
+      parentElement: { rowIndex }
+    } = cell;
+    const newPosition = { y: rowIndex, x: cellIndex };
+    const distance = getDistance(currentPosition, newPosition);
+    if (distance !== 1) {
+      return;
     }
+    const point = tableEl.rows
+      .item(currentPosition.y)
+      .cells.item(currentPosition.x);
+    point.textContent = cell.textContent;
+    point.classList.remove('table-active');
+    cell.textContent = '';
+    cell.classList.add('table-active');
+    currentPosition = { x: cellIndex, y: rowIndex };
+  });
 
-    if (cells[cellIndex + 1]) {
-      rightSiblingCell = rows[rowIndex].cells[cellIndex + 1];
-    }
-
-    if (cells[rowIndex - 1]) {
-      topSiblingCell = rows[rowIndex - 1].cells[cellIndex];
-    }
-
-    if (cells[rowIndex + 1]) {
-      bottomSiblingCell = rows[rowIndex + 1].cells[cellIndex];
-    }
-
-    const isActive = cell => cell.classList.contains('table-active');
-    const setData = (currentCell, siblingCell) => {
-      siblingCell.classList.remove('table-active');
-      siblingCell.textContent = currentCell.textContent;
-
-      currentCell.textContent = '';
-      currentCell.classList.add('table-active');
-    };
-
-    if (rightSiblingCell && isActive(rightSiblingCell)) {
-      setData(cell, rightSiblingCell);
-    }
-
-    if (leftSiblingCell && isActive(leftSiblingCell)) {
-      setData(cell, leftSiblingCell);
-    }
-
-    if (topSiblingCell && isActive(topSiblingCell)) {
-      setData(cell, topSiblingCell);
-    }
-
-    if (bottomSiblingCell && isActive(bottomSiblingCell)) {
-      setData(cell, bottomSiblingCell);
-    }
-  };
-  const clickHandler = (evt) => {
-    const { target } = evt;
-    makeStep(target);
-  };
-  document.querySelector('.gem-puzzle').append(generatePlayingField());
-  document.addEventListener('click', clickHandler);
+  const root = document.querySelector('.gem-puzzle');
+  root.append(tableEl);
 };

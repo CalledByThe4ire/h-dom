@@ -1,23 +1,23 @@
-# javascript-package
+### normalize.js
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте и экспортируйте по умолчанию функцию `normalize`, которая нормализует имена классов для всех элементов на странице. В данном случае это означает, что происходит преобразование всех классов, написанных с использованием `kebab`нотации, в `camelCase` нотацию: `text-center` => `textCenter`
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+Попробуйте решить эту задачу без использования регулярных выражений.
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
+```
+// <body>
+//   <div class="text-center row-b">Bam</div>
+// </body>
+normalize(document);
+console.log(document.body.innerHTML);
+// <body>
+//   <div class="textCenter rowB">Bam</div>
+// </body>
 
-## Setup
-
-```sh
-make install
 ```
 
-### Run
+### Подсказки
 
-```sh
-make develop
-```
+-   Самый простой способ найти все элементы в документе это `document.body.getElementsByTagName('*')`
+-   Приведение к camelCase <https://lodash.com/docs/4.17.11#camelCase>
+-   Замена классов [replace](https://developer.mozilla.org/en-US/docs/Web/API/Element/classList#Methods) у объекта `classList`

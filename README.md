@@ -1,23 +1,59 @@
-# javascript-package
+Модификация игры в пятнашки, в которой управление осуществляется с помощью стрелок.
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+### application.js
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+Реализуйте игру в соответствие со следующими требованиями:
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
+-   Размер поля должен быть 4x4
+-   В начальной позиции пустым всегда является правый нижний квадрат
+-   Элементы формируются случайным образом по следующему алгоритму: сначала они перемешиваются используя `randomize(values)`, а затем они наполняют таблицу. Таблица должна заполняться значениями сверху вниз, то есть пятый элемент, добавляемый в неё, находится по индексам [1, 0];
 
-## Setup
+Перемещение костяшек происходит с помощью стрелок.
 
-```sh
-make install
+Так как тесты завязаны на верстку (Bootstrap), то к ней предъявляются особые требования. Вот как выглядит начальная позиция:
+
+```
+<div class="gem-puzzle">
+    <table class="table-bordered">
+        <tbody>
+            <tr>
+                <td class="p-3">10</td>
+                <td class="p-3">11</td>
+                <td class="p-3">6</td>
+                <td class="p-3">4</td>
+            </tr>
+            <tr>
+                <td class="p-3">14</td>
+                <td class="p-3">2</td>
+                <td class="p-3">12</td>
+                <td class="p-3">1</td>
+            </tr>
+            <tr>
+                <td class="p-3">3</td>
+                <td class="p-3">13</td>
+                <td class="p-3">9</td>
+                <td class="p-3">8</td>
+            </tr>
+            <tr>
+                <td class="p-3">5</td>
+                <td class="p-3">7</td>
+                <td class="p-3">15</td>
+                <td class="p-3 table-active"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 ```
 
-### Run
+-   Класс таблицы постоянен
+-   У каждой ячейки проставлен класс `p-3`
+-   Пустая ячейка не содержит текста.
+-   У пустой ячейки добавляется класс `table-active`
 
-```sh
-make develop
-```
+![init position](https://cdn2.hexlet.io/derivations/image/original/eyJpZCI6Ijk0MThlMjJiM2MzMDAzMGQ4ZWEwMGQ2NjkzMzE3ZGVlLnBuZyIsInN0b3JhZ2UiOiJzdG9yZSJ9?signature=15b614743d85a387274e290254838a04aa2119f2f8071b87b166505672c0bb82)
+
+### Подсказки
+
+-   Нажатие на клавиши генерирует код, по которому можно понять что за клавиша была нажата
+-   Коды для стрелок можно подсмотреть в тестах

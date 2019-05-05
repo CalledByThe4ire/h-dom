@@ -1,3 +1,4 @@
-import init from './init';
+import 'js-polyfills/dom';
+import app from './application';
 
-init();
+app();

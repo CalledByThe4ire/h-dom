@@ -3,132 +3,55 @@ import _ from 'lodash';
 
 const values = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
-const generatePlayingField = (data) => {
+export default (randomize = _.shuffle) => {const defaultCellIndex = 3;
+  const defaultRowIndex = 3;
+  let currentPosition = { cellIndex: defaultCellIndex, rowIndex: defaultRowIndex };
+  const root = document.querySelector('.gem-puzzle');
   const tableEl = document.createElement('table');
-
   tableEl.className = 'table-bordered';
+  document.addEventListener('keyup', (e) => {
+    let newPosition;
+    const { cellIndex, rowIndex } = currentPosition;
+    switch (e.key) {
+      case 'ArrowLeft':
+        newPosition = { ...currentPosition, cellIndex: cellIndex + 1 };
+        break;
+      case 'ArrowUp':
+        newPosition = { ...currentPosition, rowIndex: rowIndex + 1 };
+        break;
+      case 'ArrowRight':
+        newPosition = { ...currentPosition, cellIndex: cellIndex - 1 };
+        break;
+      case 'ArrowDown':
+        newPosition = { ...currentPosition, rowIndex: rowIndex - 1 };
+        break;
+      default:
+        return;
+    }
+    const row = tableEl.rows.item(newPosition.rowIndex);
+    if (row) {
+      const cell = row.cells.item(newPosition.cellIndex);
+      if (cell) {
+        const point = tableEl.rows.item(rowIndex).cells.item(cellIndex);
+        point.textContent = cell.textContent;
+        point.classList.remove('table-active');
+        cell.textContent = '';
+        cell.classList.add('table-active');
+        currentPosition = newPosition;
+      }
+    }
+  });
+  root.append(tableEl);
+  const randomValues = randomize(values);
   for (let i = 0; i < 4; i += 1) {
     const row = tableEl.insertRow();
     for (let j = 0; j < 4; j += 1) {
       const cell = row.insertCell();
       cell.className = 'p-3';
-      if (i === 3 && j === 3) {
+      if (i === defaultCellIndex && j === defaultRowIndex) {
         cell.classList.add('table-active');
-      } else {
-        cell.textContent = data[i + j * 4];
       }
+      cell.textContent = randomValues[i + (j * 4)];
     }
   }
-  return tableEl;
-};
-
-export default (randomize = _.shuffle) => {
-  document
-    .querySelector('.gem-puzzle')
-    .append(generatePlayingField(randomize(values)));
-
-  const table = document.querySelector('.table-bordered');
-
-  const model = {
-    activeCellCoords: {
-      rowIndex: 3,
-      cellIndex: 3,
-    },
-  };
-
-  const getCell = (coords) => {
-    const { rowIndex, cellIndex } = coords;
-    return table.rows[rowIndex].cells[cellIndex];
-  };
-
-  const updateView = () => {
-    const activeCell = table.querySelector('.table-active');
-    // eslint-disable-next-line
-    const newCell = getCell(proxiedModel.activeCellCoords);
-    activeCell.textContent = newCell.textContent;
-    newCell.textContent = '';
-    activeCell.classList.remove('table-active');
-    newCell.classList.add('table-active');
-  };
-
-  const handler = {
-    set: (target, prop, newValue) => {
-      if (prop in target) {
-        target[prop] = newValue; // eslint-disable-line no-param-reassign
-        updateView();
-        return true;
-      }
-      return false;
-    },
-  };
-
-  const proxiedModel = new Proxy(model, handler);
-
-  const updateModel = ({ key }) => {
-    const updateModelRow = (
-      flag,
-      activeCell = table.querySelector('.table-active'),
-    ) => {
-      const activeRow = activeCell.parentElement.rowIndex;
-      let calculatedRow = null;
-
-      if (flag === 'up') {
-        calculatedRow = activeRow + 1;
-      } else if (flag === 'down') {
-        calculatedRow = activeRow - 1;
-      }
-
-      if (table.rows[calculatedRow]) {
-        const newCellCoords = {
-          ...proxiedModel.activeCellCoords,
-          rowIndex: calculatedRow,
-        };
-        proxiedModel.activeCellCoords = newCellCoords;
-      }
-    };
-
-    const updateModelCell = (
-      flag,
-      activeCell = table.querySelector('.table-active'),
-    ) => {
-      let siblingCell = null;
-
-      if (flag === 'left') {
-        siblingCell = activeCell.cellIndex + 1;
-      } else if (flag === 'right') {
-        siblingCell = activeCell.cellIndex - 1;
-      }
-
-      if (activeCell.parentElement.cells[siblingCell]) {
-        const newCellCoords = {
-          ...proxiedModel.activeCellCoords,
-          cellIndex: siblingCell,
-        };
-        proxiedModel.activeCellCoords = newCellCoords;
-      }
-    };
-
-    switch (key) {
-      case 'ArrowDown':
-        updateModelRow('down');
-        break;
-
-      case 'ArrowUp':
-        updateModelRow('up');
-        break;
-
-      case 'ArrowLeft':
-        updateModelCell('left');
-        break;
-
-      case 'ArrowRight':
-        updateModelCell('right');
-        break;
-
-      default:
-        throw new Error('Invalid Case');
-    }
-  };
-
-  document.addEventListener('keyup', updateModel);
 };

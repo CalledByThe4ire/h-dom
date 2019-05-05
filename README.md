@@ -1,23 +1,30 @@
-# javascript-package
+### application.js
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте и экспортируйте по умолчанию функцию, которая отвечает за показ модальных окон.
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+```
+<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+  Launch demo modal
+</button>
+<div class="modal fade" id="exampleModal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modal title 1</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+    </div>
+  </div>
+</div>
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
-
-## Setup
-
-```sh
-make install
 ```
 
-### Run
-
-```sh
-make develop
-```
+-   Модальные окна определяются по селектору `data-toggle="modal"`.
+-   Идентификатор самого окна хранится в аттрибуте `data-target` кнопки
+-   Чтобы окно всплыло, необходимо в элемент с `id` из `data-target` добавить класс `show` и стиль `display` выставить в `block`
+-   За скрытие модального окна отвечает крестик доступный по селектору `data-dismiss="modal"` внутри модального окна. Нажатие на кнопку приводит к обратному эффекту, удаляется класс `show`, а `display` выставляется в `none`.

@@ -23,6 +23,7 @@
     "@babel/polyfill": "^7.2.5",
     "js-beautify": "^1.10.0",
     "js-polyfills": "^0.1.42",
+    "keycode": "^2.2.0",
     "lodash": "^4.17.11"
   },
   "devDependencies": {

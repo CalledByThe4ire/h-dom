@@ -3,46 +3,28 @@ import 'whatwg-fetch';
 
 export default () => {
   // BEGIN (write your solution here)
-  const makeAJAXRequest = async (target) => {
-    const url = new URL(target.dataset.autocomplete, window.location.origin);
-    url.searchParams.append('term', target.value);
-
-    const response = await window.fetch(url);
-    const json = await response.json();
-    return json;
-  };
-
-  const fillElementWithData = (data, element) => {
-    const el = element;
-    if (el) {
-      if (data.length !== 0) {
-        const mappedData = data.map((value) => {
-          const li = document.createElement('li');
-          li.textContent = value;
-          return li;
-        });
-        el.innerHTML = '';
-        mappedData.forEach(li => el.append(li));
-        return el;
+  const autocompleteElements = document.querySelectorAll('input[data-autocomplete]');
+  autocompleteElements.forEach((el) => {
+    const route = el.dataset.autocomplete;
+    el.addEventListener('input', async (e) => {
+      const dataAutocompleteName = el.dataset.autocompleteName;
+      const oldList = document.querySelector(`ul[data-autocomplete-name="${dataAutocompleteName}"]`);
+      const url = new URL(route, window.location.origin);
+      url.searchParams.append('term', e.target.value);
+      const response = await fetch(url);
+      const countries = await response.json();
+      const list = document.createElement('ul');
+      list.dataset.autocompleteName = dataAutocompleteName;
+      if (countries.length === 0) {
+        countries.push('Nothing');
       }
-      el.innerHTML = '';
-      const li = document.createElement('li');
-      li.textContent = 'Nothing';
-      el.append(li);
-      return el;
-    }
-    return null;
-  };
-
-  const makeAutoComplete = async (target, node) => {
-    const data = await makeAJAXRequest(target);
-    fillElementWithData(data, node);
-  };
-
-  const ul = document.querySelector('ul[data-autocomplete-name]');
-
-  document
-    .querySelector('form input[data-autocomplete-name]')
-    .addEventListener('input', ({ target }) => makeAutoComplete(target, ul));
+      countries.forEach((country) => {
+        const li = document.createElement('li');
+        li.textContent = country;
+        list.append(li);
+      });
+      oldList.replaceWith(list);
+    });
+  });
   // END
 };

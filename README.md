@@ -1,23 +1,22 @@
-# javascript-package
+### src/search.js
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+Реализуйте и экспортируйте по умолчанию функцию `search`, которая принимает на вход `document` и имя тега, а возвращает массив из всех элементов соответствующих этому тегу.
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+```
+// <body>
+//   <p>1</p>
+//   text
+//   <div><p>2</p></div>
+// </body>
+const elements = search(document, 'p');
+// ['<p>1</p>' '<p>2</p>'] где каждый элемент это объект соответствующего типа
+console.log(elements.length); // 2
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
-
-## Setup
-
-```sh
-make install
 ```
 
-### Run
+Это задание подразумевает тренировку работы с домом как с деревом, по этой причине большая просьба не использовать реализацию на основе `getElementsByTagName`.
 
-```sh
-make develop
-```
+### Подсказки
+
+-   Имя тега соответствующего dom элементу, можно получить так: `element.tagName`
+-   Более подробно варианты использования смотрите в тестах

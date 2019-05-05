@@ -1,23 +1,35 @@
-# javascript-package
+Задача этого упражнения состоит в том чтобы реализовать автокомплит по странам. На странице присутствует элемент *input*, с аттрибутами *data-autocomplete* и *data-autocomplete-name*, к которому нужно привязаться. Атрибут `data-autocomplete` содержит ссылку, по которой нужно делать запрос на данные. Атрибут *data-autocomplete-name* содержит имя, по которому необходимо найти на странице список *ul* с точно таким же аттрибутом и значением. В этом списке выводятся данные.
 
-[![Code Climate](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/gpa.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Issue Count](https://codeclimate.com/github/hexlet-boilerplates/webpack-package/badges/issue_count.svg)](https://codeclimate.com/github/hexlet-boilerplates/webpack-package)
-[![Build Status](https://travis-ci.org/hexlet-boilerplates/webpack-package.svg?branch=master)](https://travis-ci.org/hexlet-boilerplates/webpack-package)
+### src/application.js
 
-##
-[![Hexlet Ltd. logo](https://raw.githubusercontent.com/Hexlet/hexletguides.github.io/master/images/hexlet_logo128.png)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package)
+Реализуйте автокомплит по странам.
 
-This repository is created and maintained by the team and the community of Hexlet, an educational project. [Read more about Hexlet (in Russian)](https://ru.hexlet.io/pages/about?utm_source=github&utm_medium=link&utm_campaign=webpack-package).
-##
+Как только в поле ввода появляется хотя бы один символ, необходимо выполнить запрос на сервер с параметром *term* значением которого, будет строка введенная в *input*. Сервер возвращает массив из стран (на английском языке).
 
-## Setup
+Если этот массив не пустой, то нужно заполнить список (посмотреть его нахождение можно либо через `public/index.html` либо открыв исходный код страницы в веб доступе) таким образом:
 
-```sh
-make install
+```
+<ul data-autocomplete-name="country">
+  <li>pakistan</li>
+  <li>panama</li>
+  <li>paraguay</li>
+</ul>
+
 ```
 
-### Run
+Если с сервера пришел пустой список то нужно вывести:
 
-```sh
-make develop
 ```
+<ul data-autocomplete-name="country">
+  <li>Nothing</li>
+</ul>
+
+```
+
+### Подсказки
+
+-   Для формирования правильного запроса на сервер, используйте [URL](https://developer.mozilla.org/en/docs/Web/API/URL)
+-   Значение поля *input* необходимо брать из события так: `e.target.value`
+-   Используйте *async/await*
+-   Ваш код должен работать даже в том случае если на странице множество автокомплитов
+-   Используйте событие [input](https://developer.mozilla.org/en-US/docs/Web/Events/input)
